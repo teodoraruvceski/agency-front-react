@@ -2,7 +2,8 @@ import axios from 'axios';
 import { Company } from '../models/Company';
 
 export const pay = (total: number) => {
-	return axios.get('https://localhost:6001/api/Home');
+	//return axios.get('https://localhost:6001/api/Home');
+	return axios.get('http://localhost:3005');
 };
 
 export const login = (email: string, password: string) => {

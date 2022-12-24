@@ -9,13 +9,12 @@ function PayRegistration() {
 			'Saljem request apiju za url do PSP frontenda. Cena registracije 10usd'
 		);
 		pay(10).then((data) => {
-			console.log('I should redirect to -> ', data.data.link);
-			//window.location.replace(data.data.link);
 			console.log('I should redirect to -> ', data.data);
+			//window.location.replace(data.data.link);
 			// testPSP_Api().then((data) => {
 			// 	console.log(data);
 			// });
-			window.location.href = data.data.link + '?total=10';
+			window.location.href = data.data + '?total=10';
 		});
 	};
 	return (
