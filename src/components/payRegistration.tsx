@@ -1,20 +1,24 @@
 import { useState } from 'react';
 import { Flex, Button, Stack, Box } from '@chakra-ui/react';
 import { FiAlertTriangle } from 'react-icons/fi';
-import { pay, testPSP_Api } from '../services/service';
+import { getPspFrontUrl, testPSP_Api } from '../services/service';
 
 function PayRegistration() {
 	const PayClick = () => {
 		console.log(
 			'Saljem request apiju za url do PSP frontenda. Cena registracije 10usd'
 		);
-		pay(10).then((data) => {
-			console.log('I should redirect to -> ', data.data);
+		const search = window.location.search;
+		const params = new URLSearchParams(search);
+		const pid = params.get('paymentId');
+
+		getPspFrontUrl().then((data) => {
 			//window.location.replace(data.data.link);
 			// testPSP_Api().then((data) => {
 			// 	console.log(data);
 			// });
-			window.location.href = data.data + '?total=10';
+			console.log(data.data);
+			window.location.href = data.data + '?total=10&paymentId=reg_' + pid; //total amount for registration
 		});
 	};
 	return (
@@ -54,7 +58,7 @@ function PayRegistration() {
 					<FiAlertTriangle color='gray' size={100} />
 				</Box>
 				<Box pl='30px' pr='30px' pb='30px'>
-					Za nastavak registracije potrebno je platiti troskove registracije
+					Za nastavak registracije potrebno je platiti troskove registracije 10$
 				</Box>
 			</Stack>
 

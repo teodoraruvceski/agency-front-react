@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaUserAlt, FaLock } from 'react-icons/fa';
 import { useRecoilState } from 'recoil';
 import newCompany from '../recoil/atom/newCompany';
+import { register } from '../services/service';
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
@@ -38,8 +39,11 @@ function Registration() {
 			newCompanyState.password.length >= 3
 		) {
 			console.log(newCompanyState);
-
-			navigate('/payRegistration');
+			register(newCompanyState).then((data) => {
+				console.log(data);
+				window.location.href =
+					'http://localhost:3000/payRegistration?paymentId=' + data.data;
+			});
 		}
 	};
 	return (
@@ -59,7 +63,7 @@ function Registration() {
 			>
 				<Avatar bg='teal.500' />
 				<Heading p='20px' color='teal.400'>
-					Registracija
+					Registracija kompanije
 				</Heading>
 				<Box minW={{ base: '90%', md: '468px' }}>
 					<form>
