@@ -1,14 +1,10 @@
 import { Flex, Button, Stack, Box } from '@chakra-ui/react';
 import { FiAlertTriangle } from 'react-icons/fi';
-import { useNavigate } from 'react-router-dom';
-import { register } from '../services/service';
-import { useRecoilState } from 'recoil';
-import newCompany from '../recoil/atom/newCompany';
 import { paidRegistration } from '../services/service';
+import { useNavigate } from 'react-router-dom';
 
-function SuccessfullRegistration() {
+function SuccessfulRegistration() {
 	const navigate = useNavigate();
-	const [newCompanyState, setNewCompany] = useRecoilState(newCompany);
 	const Continue = async () => {
 		console.log('uspesno registrovan');
 		const search = window.location.search;
@@ -18,7 +14,8 @@ function SuccessfullRegistration() {
 		const id = pid?.split('_')[1];
 		console.log(id);
 		const data = await paidRegistration(id ? id : '');
-		//navigate('/login');
+		console.log(data);
+		navigate('/login');
 	};
 	return (
 		<Flex
@@ -69,4 +66,4 @@ function SuccessfullRegistration() {
 		</Flex>
 	);
 }
-export default SuccessfullRegistration;
+export default SuccessfulRegistration;

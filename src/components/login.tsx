@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
 	Flex,
 	Heading,
@@ -9,15 +10,13 @@ import {
 	InputLeftElement,
 	chakra,
 	Box,
-	Link,
 	Avatar,
 	FormControl,
 	FormHelperText,
 	InputRightElement,
 } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
 import { FaUserAlt, FaLock } from 'react-icons/fa';
-import { login } from '../services/service';
+import { login, getToken } from '../services/service';
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
@@ -26,11 +25,24 @@ function Login() {
 	const [showPassword, setShowPassword] = useState(false);
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+
+	useEffect(() => {
+		if (getToken() !== null) {
+			navigate('/home');
+		}
+	}, []);
+
 	const handleShowClick = () => setShowPassword(!showPassword);
-	const loginClick = () => {
-		login(email, password).then((data) => {
+	const loginClick = async () => {
+		const data = await login(email, password);
+		if (data.data.includes('not-paid')) {
+			const id = data.data.split('_')[1];
+			window.location.href = '/payRegistration?paymentId=' + id;
+		} else {
 			console.log('User->', data.data);
-		});
+			localStorage.setItem('token', data.data);
+			navigate('/home');
+		}
 	};
 	return (
 		<Flex
@@ -92,7 +104,7 @@ function Login() {
 							</FormControl>
 							<Button
 								borderRadius={0}
-								type='submit'
+								type='reset'
 								variant='solid'
 								colorScheme='teal'
 								width='full'

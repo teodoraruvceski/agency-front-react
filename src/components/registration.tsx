@@ -29,7 +29,7 @@ function Registration() {
 	const [newCompanyState, setNewCompany] = useRecoilState(newCompany);
 
 	const handleShowClick = () => setShowPassword(!showPassword);
-	const registrationClick = () => {
+	const registrationClick = async () => {
 		if (
 			newCompanyState.name !== '' &&
 			newCompanyState.pib !== '' &&
@@ -39,11 +39,9 @@ function Registration() {
 			newCompanyState.password.length >= 3
 		) {
 			console.log(newCompanyState);
-			register(newCompanyState).then((data) => {
-				console.log(data);
-				window.location.href =
-					'http://localhost:3000/payRegistration?paymentId=' + data.data;
-			});
+			const data = await register(newCompanyState);
+			console.log(data);
+			window.location.href = '/payRegistration?paymentId=' + data.data;
 		}
 	};
 	return (
@@ -157,7 +155,7 @@ function Registration() {
 
 							<Button
 								borderRadius={0}
-								type='submit'
+								type='reset'
 								variant='solid'
 								colorScheme='teal'
 								width='full'
