@@ -54,7 +54,7 @@ function SuccessfulRegistration() {
 					<FiAlertTriangle color='gray' size={100} />
 				</Box>
 				<Box pl='30px' pr='30px' pb='30px'>
-					Uspešno ste se ulogovali!
+					Uspešno ste se registrovali!
 				</Box>
 			</Stack>
 

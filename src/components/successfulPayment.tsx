@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Flex, Box, Button, Text } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 function SuccessfulPayment() {
+	const nav = useNavigate();
 	useEffect(() => {
 		console.log('uspesno placanje');
 		const search = window.location.search;
@@ -19,7 +21,9 @@ function SuccessfulPayment() {
 			console.log('purch');
 		}
 	}, []);
-	const backToHome = async () => {};
+	const backToHome = async () => {
+		nav('/home');
+	};
 	return (
 		<Flex
 			flexDirection='column'

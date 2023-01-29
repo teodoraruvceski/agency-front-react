@@ -36,7 +36,8 @@ function Login() {
 	const loginClick = async () => {
 		const data = await login(email, password);
 		if (data.data.includes('not-paid')) {
-			const id = data.data.split('_')[1];
+			const id = data.data.split('_')[1] + '_' + data.data.split('_')[2];
+			console.log(data);
 			window.location.href = '/payRegistration?paymentId=' + id;
 		} else {
 			console.log('User->', data.data);

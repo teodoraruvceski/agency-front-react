@@ -10,10 +10,10 @@ function PayRegistration() {
 		const search = window.location.search;
 		const params = new URLSearchParams(search);
 		const pid = params.get('paymentId');
-
+		console.log(pid);
 		const data = await getPspFrontUrl();
 		console.log(data.data);
-		window.location.href = data.data + '?total=10&paymentId=reg_' + pid; //total amount for registration
+		window.location.href = data.data + '?paymentId=' + pid;
 	};
 	return (
 		<Flex

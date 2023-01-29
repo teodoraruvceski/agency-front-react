@@ -47,7 +47,7 @@ function Home() {
 			flexDirection='row'
 			width='100wh'
 			height='100vh'
-			backgroundColor='gray.200'
+			backgroundColor='white'
 			justifyContent='center'
 			alignItems='center'
 		>
