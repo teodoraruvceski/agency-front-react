@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Flex, Box, Button, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import { addPackageToCompany, updatePremium } from '../services/service';
-function SuccessfulPayment() {
+function ErrorPayment() {
 	const nav = useNavigate();
 	useEffect(() => {
 		console.log('uspesno placanje');
@@ -13,27 +12,9 @@ function SuccessfulPayment() {
 		const paymentType = pid?.split('_')[0];
 
 		if (paymentType === 'reg') {
-			window.location.href =
-				'http://localhost:3000/successfulRegistration?paymentId=' + pid;
+			window.location.href = 'http://localhost:3000/login';
 		} else if (paymentType === 'purch') {
-			if (pid?.includes('premium')) {
-				const update = async () => {
-					const response = await updatePremium(pid?.split('_')[2]);
-					if (response.data.successful) {
-						window.location.href = 'http://localhost:3000/home';
-					}
-				};
-				update();
-			}
-			const packageId = pid?.split('_')[1];
-			const userId = pid?.split('_')[2];
-			console.log(`packageId:${packageId}\nuserId:${userId}`);
-			console.log('purch');
-			const add = async () => {
-				const data = await addPackageToCompany(pid || '');
-				window.location.href = 'http://localhost:3000/home';
-			};
-			add();
+			window.location.href = 'http://localhost:3000/home';
 		}
 	}, []);
 	const backToHome = async () => {
@@ -49,7 +30,7 @@ function SuccessfulPayment() {
 			alignItems='center'
 			borderColor='#85AF58'
 		>
-			<Text fontSize='6xl'>Plaćanje uspešno izvršeno!</Text>
+			<Text fontSize='6xl'>Plaćanje nije uspešno izvršeno!</Text>
 
 			<Box>
 				<Button
@@ -64,4 +45,4 @@ function SuccessfulPayment() {
 		</Flex>
 	);
 }
-export default SuccessfulPayment;
+export default ErrorPayment;

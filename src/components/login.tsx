@@ -35,14 +35,16 @@ function Login() {
 	const handleShowClick = () => setShowPassword(!showPassword);
 	const loginClick = async () => {
 		const data = await login(email, password);
-		if (data.data.includes('not-paid')) {
-			const id = data.data.split('_')[1] + '_' + data.data.split('_')[2];
+		if (data.data.successful) {
+			console.log('User->', data.data);
+			localStorage.setItem('token', data.data.token);
+			navigate('/home');
+		} else if (data.data.message === 'NOT-PAID') {
+			const id = data.data.id;
 			console.log(data);
 			window.location.href = '/payRegistration?paymentId=' + id;
 		} else {
-			console.log('User->', data.data);
-			localStorage.setItem('token', data.data);
-			navigate('/home');
+			alert(data.data.message);
 		}
 	};
 	return (

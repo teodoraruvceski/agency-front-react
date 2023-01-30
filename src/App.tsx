@@ -7,6 +7,9 @@ import Home from './components/home';
 import SuccessfulPayment from './components/successfulPayment';
 import Header from './components/header';
 import { Flex } from '@chakra-ui/react';
+import BuyPackage from './components/buyPackage';
+import Companies from './components/companies';
+import BuyPremium from './components/buyPremium';
 
 function App() {
 	return (
@@ -22,7 +25,10 @@ function App() {
 					path='/successfulRegistration'
 					element={<SuccessfulRegistration />}
 				/>
+				<Route path='/buyPackage' element={<BuyPackage />} />
 				<Route path='/successfulPayment' element={<SuccessfulPayment />} />
+				<Route path='/companies' element={<Companies />} />
+				<Route path='/buyPremium' element={<BuyPremium />} />
 			</Routes>
 		</Flex>
 	);

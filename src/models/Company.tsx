@@ -5,6 +5,7 @@ export class Company {
 	password: string = '';
 	email: string = '';
 	paid: boolean = false;
+	role: string = '';
 	constructor(name: string, pib: string, email: string, password: string) {
 		this.id = -1;
 		this.name = name;

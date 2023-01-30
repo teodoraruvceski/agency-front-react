@@ -9,6 +9,7 @@ const newCompany = atom({
 		email: '',
 		paid: false,
 		id: 0,
+		role: 'user',
 	},
 });
 

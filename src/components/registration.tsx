@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
 	Flex,
 	Heading,
@@ -27,8 +27,20 @@ function Registration() {
 	const navigate = useNavigate();
 	const [showPassword, setShowPassword] = useState(false);
 	const [newCompanyState, setNewCompany] = useRecoilState(newCompany);
-
+	const [companyMode, setCompanyMode] = useState(false);
 	const handleShowClick = () => setShowPassword(!showPassword);
+	useEffect(() => {
+		if (companyMode)
+			setNewCompany((prevState) => ({
+				...prevState,
+				role: 'company',
+			}));
+		else
+			setNewCompany((prevState) => ({
+				...prevState,
+				role: 'user',
+			}));
+	}, [companyMode]);
 	const registrationClick = async () => {
 		if (
 			newCompanyState.name !== '' &&
@@ -38,10 +50,31 @@ function Registration() {
 			newCompanyState.password !== '' &&
 			newCompanyState.password.length >= 3
 		) {
-			console.log(newCompanyState);
-			const data = await register(newCompanyState);
-			console.log(data);
-			window.location.href = '/payRegistration?paymentId=' + data.data;
+			if (companyMode) {
+				setNewCompany((prev) => ({
+					...prev,
+					role: 'company',
+				}));
+				console.log(newCompanyState);
+				const data = await register(newCompanyState);
+				console.log(data);
+				if (data.data.successful)
+					window.location.href = '/payRegistration?paymentId=' + data.data.id;
+				else alert(data.data.message);
+			} else {
+				setNewCompany((prev) => ({
+					...prev,
+					role: 'user',
+				}));
+				console.log(newCompanyState);
+				const data = await register(newCompanyState);
+				if (data.data.successful) {
+					console.log(data);
+					window.location.href = '/login';
+				} else {
+					alert(data.data.message);
+				}
+			}
 		}
 	};
 	return (
@@ -60,9 +93,16 @@ function Registration() {
 				alignItems='center'
 			>
 				<Avatar bg='teal.500' />
-				<Heading p='20px' color='teal.400'>
-					Registracija kompanije
-				</Heading>
+				{companyMode ? (
+					<Heading p='20px' color='teal.400'>
+						Registracija kompanije
+					</Heading>
+				) : (
+					<Heading p='20px' color='teal.400'>
+						Registracija korisnika
+					</Heading>
+				)}
+
 				<Box minW={{ base: '90%', md: '468px' }}>
 					<form>
 						<Stack
@@ -79,7 +119,7 @@ function Registration() {
 										children={<CFaUserAlt color='gray.300' />}
 									/>
 									<Input
-										placeholder='Ime kompanije'
+										placeholder='Ime'
 										onChange={(event) =>
 											setNewCompany((prevState) => ({
 												...prevState,
@@ -97,15 +137,27 @@ function Registration() {
 										color='gray.300'
 										children={<CFaUserAlt color='gray.300' />}
 									/>
-									<Input
-										placeholder='PIB'
-										onChange={(event) =>
-											setNewCompany((prevState) => ({
-												...prevState,
-												pib: event.target.value,
-											}))
-										}
-									/>
+									{companyMode ? (
+										<Input
+											placeholder='PIB'
+											onChange={(event) =>
+												setNewCompany((prevState) => ({
+													...prevState,
+													pib: event.target.value,
+												}))
+											}
+										/>
+									) : (
+										<Input
+											placeholder='jmbg'
+											onChange={(event) =>
+												setNewCompany((prevState) => ({
+													...prevState,
+													pib: event.target.value,
+												}))
+											}
+										/>
+									)}
 								</InputGroup>
 								<FormHelperText textAlign='right'></FormHelperText>
 							</FormControl>
@@ -168,6 +220,21 @@ function Registration() {
 				</Box>
 			</Stack>
 			<Box>
+				{companyMode ? (
+					<Button
+						backgroundColor='transparent'
+						onClick={() => setCompanyMode(false)}
+					>
+						<u>Registruj se kao korisnik?</u>
+					</Button>
+				) : (
+					<Button
+						backgroundColor='transparent'
+						onClick={() => setCompanyMode(true)}
+					>
+						<u>Registruj se kao kompanija ?</u>
+					</Button>
+				)}
 				<Button
 					backgroundColor='transparent'
 					onClick={() => navigate('/login')}

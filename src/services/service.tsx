@@ -27,18 +27,61 @@ export const register = async (company: Company) => {
 		pib: company.pib,
 		paid: company.paid,
 		id: -1,
+		role: company.role,
 	};
 	return await axios.post('http://localhost:6001/registration', c);
 };
 export const getPackages = async () => {
 	return await axios.get('http://localhost:6001/getPackages', {
-		headers: { authentification: getToken() },
+		headers: { authentication: getToken() },
 	});
 };
-export const buyPackage = async (p: Package) => {
-	return await axios.post('http://localhost:6001/buyPackage', p, {
-		headers: { authentification: getToken() },
+export const getCompanies = async () => {
+	return await axios.get('http://localhost:6001/getCompanies', {
+		headers: { authentication: getToken() },
 	});
+};
+export const getPackage = async (id: number) => {
+	return await axios.get('http://localhost:6001/getPackage?id=' + id, {
+		headers: { authentication: getToken() },
+	});
+};
+export const buyPackage = async (p: Number) => {
+	return await axios.post(
+		'http://localhost:6001/buyPackage',
+		{ id: p },
+		{
+			headers: { authentication: getToken() },
+		}
+	);
+};
+export const buyPremium = async () => {
+	return await axios.post(
+		'http://localhost:6001/buyPremium',
+		{},
+
+		{
+			headers: { authentication: getToken() },
+		}
+	);
+};
+export const updatePremium = async (id: string) => {
+	return await axios.post(
+		'http://localhost:6001/updatePremium',
+		{ id: id },
+
+		{
+			headers: { authentication: getToken() },
+		}
+	);
+};
+export const addPackageToCompany = async (paymentId: string) => {
+	return await axios.get(
+		'http://localhost:6001/addPackageToCompany' + '?paymentId=' + paymentId,
+		{
+			headers: { authentication: getToken() },
+		}
+	);
 };
 
 export const getToken = () => {

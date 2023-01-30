@@ -1,8 +1,10 @@
 import { Flex, Button, Stack, Box } from '@chakra-ui/react';
 import { FiAlertTriangle } from 'react-icons/fi';
 import { getPspFrontUrl } from '../services/service';
+import { useNavigate } from 'react-router-dom';
 
 function PayRegistration() {
+	const nav = useNavigate();
 	const PayClick = async () => {
 		console.log(
 			'Saljem request apiju za url do PSP frontenda. Cena registracije 10usd'
@@ -54,11 +56,18 @@ function PayRegistration() {
 				<Box pl='30px' pr='30px' pb='30px'>
 					Za nastavak registracije potrebno je platiti troskove registracije 10$
 				</Box>
+				<Button backgroundColor='green.300' onClick={PayClick}>
+					Plati
+				</Button>
 			</Stack>
 
 			<Box>
-				<Button backgroundColor='green.300' onClick={PayClick}>
-					Plati
+				<Button
+					mt='100px'
+					backgroundColor='gray.300'
+					onClick={() => nav('/home')}
+				>
+					Vrati se
 				</Button>
 			</Box>
 		</Flex>

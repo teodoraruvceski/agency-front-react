@@ -7,6 +7,7 @@ export class TokenData {
 	jmbg: string = '';
 	paid: boolean = false;
 	exp: number = -1;
+	role: string = '';
 	iat: number = -1;
 	constructor(
 		name: string,
@@ -14,7 +15,8 @@ export class TokenData {
 		email: string,
 		password: string,
 		jmbg: string,
-		paid: boolean
+		paid: boolean,
+		role: string
 	) {
 		this.id = '-1';
 		this.name = name;
@@ -23,5 +25,6 @@ export class TokenData {
 		this.password = password;
 		this.jmbg = jmbg;
 		this.paid = paid;
+		this.role = role;
 	}
 }
