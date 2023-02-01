@@ -11,6 +11,20 @@ export const getPspFrontUrl = async () => {
 export const login = async (email: string, password: string) => {
 	return await axios.post('http://localhost:6001/login', { email, password });
 };
+export const sendCode = async (
+	code: string,
+	email: string,
+	password: string
+) => {
+	console.log(email);
+	console.log(password);
+
+	return await axios.post('http://localhost:6001/login2', {
+		email,
+		password,
+		code,
+	});
+};
 export const paidRegistration = async (id: string) => {
 	return await axios.post('http://localhost:6001/paid-registration', null, {
 		params: {

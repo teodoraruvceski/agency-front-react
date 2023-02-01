@@ -20,20 +20,22 @@ function SuccessfulPayment() {
 				const update = async () => {
 					const response = await updatePremium(pid?.split('_')[2]);
 					if (response.data.successful) {
+						localStorage.setItem('token', response.data.token);
 						window.location.href = 'http://localhost:3000/home';
 					}
 				};
 				update();
+			} else {
+				const packageId = pid?.split('_')[1];
+				const userId = pid?.split('_')[2];
+				console.log(`packageId:${packageId}\nuserId:${userId}`);
+				console.log('purch');
+				const add = async () => {
+					const data = await addPackageToCompany(pid || '');
+					//window.location.href = 'http://localhost:3000/home';
+				};
+				add();
 			}
-			const packageId = pid?.split('_')[1];
-			const userId = pid?.split('_')[2];
-			console.log(`packageId:${packageId}\nuserId:${userId}`);
-			console.log('purch');
-			const add = async () => {
-				const data = await addPackageToCompany(pid || '');
-				window.location.href = 'http://localhost:3000/home';
-			};
-			add();
 		}
 	}, []);
 	const backToHome = async () => {

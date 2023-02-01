@@ -24,12 +24,12 @@ function Home() {
 			navigate('/login');
 		} else {
 			const user = getUser();
-			console.log(user);
 			if (user.role === 'user') {
 				navigate('/companies');
 			} else {
 				getPackages().then((data) => {
-					setPackages(data.data);
+					if (data.data.successful) setPackages(data.data.data);
+					else alert(data.data.message);
 				});
 			}
 		}

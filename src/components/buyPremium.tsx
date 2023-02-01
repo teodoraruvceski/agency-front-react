@@ -3,10 +3,13 @@ import { Flex, Button, Stack, Box } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
 import { GiPresent } from 'react-icons/gi';
-import { buyPremium } from '../services/service';
+import { buyPremium, getUser } from '../services/service';
 
 function BuyPremium() {
 	const navigate = useNavigate();
+	useEffect(() => {
+		if (getUser().role === 'company' || getUser().premium) navigate('/home');
+	}, []);
 	const buy = async () => {
 		const resp = await buyPremium();
 		console.log('redirecting to: ' + resp.data);
@@ -20,6 +23,8 @@ function BuyPremium() {
 			backgroundColor='white'
 			justifyContent='center'
 			alignItems='center'
+			mt='100px'
+			mb='100px'
 		>
 			<Stack
 				flexDir='column'

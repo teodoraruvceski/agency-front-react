@@ -50,29 +50,36 @@ function Registration() {
 			newCompanyState.password !== '' &&
 			newCompanyState.password.length >= 3
 		) {
-			if (companyMode) {
-				setNewCompany((prev) => ({
-					...prev,
-					role: 'company',
-				}));
-				console.log(newCompanyState);
-				const data = await register(newCompanyState);
-				console.log(data);
-				if (data.data.successful)
-					window.location.href = '/payRegistration?paymentId=' + data.data.id;
-				else alert(data.data.message);
+			let check = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
+			if (!newCompanyState.password.match(check)) {
+				alert(
+					'Password too weak. Minimum 8 characters. You have to include at least one number and minimum one upper letter.'
+				);
 			} else {
-				setNewCompany((prev) => ({
-					...prev,
-					role: 'user',
-				}));
-				console.log(newCompanyState);
-				const data = await register(newCompanyState);
-				if (data.data.successful) {
+				if (companyMode) {
+					setNewCompany((prev) => ({
+						...prev,
+						role: 'company',
+					}));
+					console.log(newCompanyState);
+					const data = await register(newCompanyState);
 					console.log(data);
-					window.location.href = '/login';
+					if (data.data.successful)
+						window.location.href = '/payRegistration?paymentId=' + data.data.id;
+					else alert(data.data.message);
 				} else {
-					alert(data.data.message);
+					setNewCompany((prev) => ({
+						...prev,
+						role: 'user',
+					}));
+					console.log(newCompanyState);
+					const data = await register(newCompanyState);
+					if (data.data.successful) {
+						console.log(data);
+						window.location.href = '/login';
+					} else {
+						alert(data.data.message);
+					}
 				}
 			}
 		}
@@ -196,13 +203,18 @@ function Registration() {
 											}))
 										}
 									/>
+
 									<InputRightElement width='4.5rem'>
 										<Button h='1.75rem' size='sm' onClick={handleShowClick}>
 											{showPassword ? 'Sakrij' : 'Prikaži'}
 										</Button>
 									</InputRightElement>
 								</InputGroup>
-								<FormHelperText textAlign='right'></FormHelperText>
+								<FormHelperText />
+								<FormHelperText textAlign='right'>
+									Minimum 8 characters. You have to include at least one number
+									and minimum one upper letter.
+								</FormHelperText>
 							</FormControl>
 
 							<Button

@@ -19,7 +19,8 @@ function Companies() {
 				navigate('/home');
 			} else {
 				getCompanies().then((data) => {
-					setCompanies(data.data);
+					if (data.data.successful) setCompanies(data.data.data);
+					else alert(data.data.message);
 					console.log(companies);
 				});
 			}
@@ -35,16 +36,20 @@ function Companies() {
 			justifyContent='center'
 			alignItems='center'
 			w='90%'
+			mt='100px'
 		>
-			<Box w='50%'>
-				<Button
-					onClick={() => (window.location.href = `/buyPremium`)}
-					backgroundColor='gold'
-				>
-					<Box p='20px'>Kupi premium paket </Box>
-					<GiPresent size={30} />
-				</Button>
-			</Box>
+			{!getUser().premium && (
+				<Box w='50%'>
+					<Button
+						onClick={() => (window.location.href = `/buyPremium`)}
+						backgroundColor='gold'
+					>
+						<Box p='20px'>Kupi premium paket </Box>
+						<GiPresent size={30} />
+					</Button>
+				</Box>
+			)}
+
 			{companies.map((c: Company) => {
 				return (
 					<Stack

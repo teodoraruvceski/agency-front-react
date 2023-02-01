@@ -9,6 +9,7 @@ export class TokenData {
 	exp: number = -1;
 	role: string = '';
 	iat: number = -1;
+	premium: boolean = false;
 	constructor(
 		name: string,
 		lastname: string,
@@ -26,5 +27,6 @@ export class TokenData {
 		this.jmbg = jmbg;
 		this.paid = paid;
 		this.role = role;
+		this.premium = false;
 	}
 }

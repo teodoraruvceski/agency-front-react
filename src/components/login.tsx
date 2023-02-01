@@ -16,7 +16,7 @@ import {
 	InputRightElement,
 } from '@chakra-ui/react';
 import { FaUserAlt, FaLock } from 'react-icons/fa';
-import { login, getToken } from '../services/service';
+import { login, getToken, sendCode } from '../services/service';
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
@@ -25,6 +25,7 @@ function Login() {
 	const [showPassword, setShowPassword] = useState(false);
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [code, setCode] = useState('');
 
 	useEffect(() => {
 		if (getToken() !== null) {
@@ -34,17 +35,33 @@ function Login() {
 
 	const handleShowClick = () => setShowPassword(!showPassword);
 	const loginClick = async () => {
-		const data = await login(email, password);
-		if (data.data.successful) {
-			console.log('User->', data.data);
-			localStorage.setItem('token', data.data.token);
-			navigate('/home');
-		} else if (data.data.message === 'NOT-PAID') {
-			const id = data.data.id;
-			console.log(data);
-			window.location.href = '/payRegistration?paymentId=' + id;
-		} else {
-			alert(data.data.message);
+		localStorage.setItem('e', email);
+		localStorage.setItem('p', password);
+		if (email === '' || password === '' || !email.includes('@'))
+			alert('Invalid input');
+		else {
+			const data = await login(email, password);
+			if (!data.data.successful) alert(data.data.message);
+		}
+	};
+	const sendCodee = async () => {
+		const resp = await sendCode(
+			code,
+			localStorage.getItem('e') || '',
+			localStorage.getItem('p') || ''
+		);
+		localStorage.clear();
+		if (resp.data.successful) {
+			if (resp.data.successful) {
+				console.log('User->', resp.data);
+				localStorage.setItem('token', resp.data.token);
+				navigate('/home');
+			} else if (resp.data.message === 'NOT-PAID') {
+				const id = resp.data.id;
+				window.location.href = '/payRegistration?paymentId=' + id;
+			} else {
+				alert(resp.data.message);
+			}
 		}
 	};
 	return (
@@ -112,6 +129,20 @@ function Login() {
 								colorScheme='teal'
 								width='full'
 								onClick={loginClick}
+							>
+								Posalji kod
+							</Button>
+							<Input
+								type='text'
+								onChange={(event) => setCode(event.target.value)}
+							/>
+							<Button
+								borderRadius={0}
+								type='reset'
+								variant='solid'
+								colorScheme='teal'
+								width='full'
+								onClick={sendCodee}
 							>
 								Prijavi se
 							</Button>
