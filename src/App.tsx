@@ -10,6 +10,7 @@ import { Flex } from '@chakra-ui/react';
 import BuyPackage from './components/buyPackage';
 import Companies from './components/companies';
 import BuyPremium from './components/buyPremium';
+import ErrorPayment from './components/errorPayment';
 
 function App() {
 	return (
@@ -29,6 +30,7 @@ function App() {
 				<Route path='/successfulPayment' element={<SuccessfulPayment />} />
 				<Route path='/companies' element={<Companies />} />
 				<Route path='/buyPremium' element={<BuyPremium />} />
+				<Route path='/errorPayment' element={<ErrorPayment />} />
 			</Routes>
 		</Flex>
 	);
